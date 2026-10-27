@@ -69,3 +69,5 @@ This product remains in private development. Public release, competition submiss
 ## Browser receiving
 
 The development-only browser course uses Playwright 1.64.1 and Linux Chrome at `/opt/google/chrome/chrome`. It requires the real Chromium sandbox; it does not disable it. Point `TURNLOOM_PLAYWRIGHT` to an existing `playwright-core` installation and `TURNLOOM_RECEIPTS` to a new receipt directory, then run `node scripts/browser-course.mjs`. Set `TURNLOOM_RUNTIME_ROOT` to an extracted package directory to exercise the same course against that delivery. Browser dependencies and the QA harness are not runtime dependencies and are excluded from the archive.
+
+The complementary `node scripts/browser-refresh-course.mjs` course uses the same environment variables. It delays authentic session and command responses to check newer saved words, participant changes, unsaved editor state, and recovery from a background read that does not finish. Both courses can receive the same extracted runtime.

@@ -10,9 +10,15 @@ The first browser course exercised actual invitation links, recovery after a dis
 
 The subsequent course also passed: a deliberately injected startup 503 preserved the existing session key and the next poll reopened the correct participant; native Enter and Tab then reserved an anchor and saved an exact private draft. The expanded course records 13 named checks. This establishes that keyboard journey, not whole-application or switch-device accessibility.
 
+## Response ordering receiving
+
+A complementary October 27 browser course reproduced a stale-view defect against owner source `8bb17607b108ff46c57c1f68f0cc53b739a7df67`: an older background session response arrived after a newer draft save and replaced the visible composer with earlier words. The server still held the newer saved draft; the reproduced defect was in the browser view.
+
+The repaired source passed eight focused actual Chrome cases: delayed reads after a save; delayed reads across participant entry; delayed successful commands across participant entry; serialized slow reads followed by a fresh update; a genuine server-generated stale-revision error across participant entry; unsaved words, focus, selection and ownership through both an old participant response and the next current-participant poll; and stalled-read timeout recovery for both the current and a newly accepted participant. The timeout cases keep the original response held until a later real poll renders a new server statement, and observe cancellation of the old browser read. These cases use authored fictional state and no live model calls. Command effects that already reached the server are not cancelled by view guards.
+
 ## Repeating and identifying the source
 
-Run `npm test`, `npm run check` and `npm run package:runtime -- NEW_OUTPUT_DIRECTORY`. Run `node scripts/browser-course.mjs` with the documented development-only Playwright installation and `TURNLOOM_RECEIPTS` destination. `TURNLOOM_RUNTIME_ROOT` selects an extracted runtime for receiving; it does not change the source under test.
+Run `npm test`, `npm run check` and `npm run package:runtime -- NEW_OUTPUT_DIRECTORY`. Run `node scripts/browser-course.mjs` and `node scripts/browser-refresh-course.mjs` with the documented development-only Playwright installation and `TURNLOOM_RECEIPTS` destination. `TURNLOOM_RUNTIME_ROOT` selects an extracted runtime for receiving; it does not change the source under test.
 
 An archive's `runtime-manifest.json` records the exact source commit, whether inputs were modified, and every delivered file's hash. The adjacent checksum identifies the archive. Keep the external receiving receipt with that checksum; neither an embedded self-referential commit nor a fabricated artifact hash belongs in this note. Private repository publication and final clean-source receiving are separate from the initial working-tree results.
 
