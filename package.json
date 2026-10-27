@@ -1,0 +1,25 @@
+{
+  "name": "turnloom",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Keep your contribution connected to its intended point.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check server.mjs && node --check src/controller.mjs && node --check app/app.mjs",
+    "package:runtime": "node scripts/package-runtime.mjs"
+  },
+  "files": [
+    "server.mjs",
+    "src/",
+    "app/",
+    "index.html",
+    "README.md",
+    "docs/",
+    "scripts/smoke.mjs"
+  ]
+}
