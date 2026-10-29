@@ -12,7 +12,8 @@
     "test": "node --test tests/*.test.mjs",
     "check": "node --check server.mjs && node --check src/controller.mjs && node --check app/app.mjs",
     "package:runtime": "node scripts/package-runtime.mjs",
-    "package:linux": "node scripts/package-linux.mjs"
+    "package:linux": "node scripts/package-linux.mjs",
+    "package:macos": "node scripts/package-macos.mjs"
   },
   "files": [
     "server.mjs",
