@@ -1,5 +1,55 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TURNLOOM · A place for your next thought</title><link rel="stylesheet" href="/app/style.css"></head>
-<body><header class="masthead"><a class="wordmark" href="/">turnloom<span aria-hidden="true">✳</span></a><span class="demo-label">FICTIONAL FOUR-PERSON DEMO</span><span id="identity">Your own pace. A shared conversation.</span></header>
-<main><section id="join-recovery" hidden aria-labelledby="join-recovery-title"><h2 id="join-recovery-title">Your session entry needs confirmation</h2><p id="join-message" role="status" aria-live="polite">Your original invitation and session key are retained in this browser. Retry checks the same session; it does not create a new one.</p><button id="retry-join">Retry the same invitation</button></section><section id="welcome" class="welcome"><p class="eyebrow">KEEP A PLACE IN THE CONVERSATION</p><h1>Your thought can take its time.</h1><p class="intro">Keep a question connected to the moment that sparked it. The conversation can continue. Your place stays open.</p><button id="create-demo" class="primary">Create a four-person demo <span aria-hidden="true">↗</span></button><p class="quiet">Manual anchors · No microphone · No automatic sharing</p><p id="entry-notice" role="status" aria-live="polite"></p><p id="entry-error" role="alert"></p><div id="invitations" hidden><h2>Invite each person to their own session</h2><p>These one-time links grant access to a participant. Give each link only to its intended person. Use separate browser profiles on this computer; this demo does not promise privacy between people sharing a browser.</p><ul id="invite-list"></ul></div></section>
-<section id="workspace" hidden><div class="room-heading"><div><p class="eyebrow">A CONVERSATION WITH ROOM TO RETURN</p><h1 id="room-title">Making our community space work for everyone</h1></div><span class="mode">● Manual anchor mode</span></div><p class="mode-note">Choose the exact statement you want to return to. Model assistance is not connected.</p><div class="workspace-grid"><section class="conversation" aria-labelledby="conversation-title"><div class="section-heading"><h2 id="conversation-title">Around the table</h2><span>Four people. More than one pace.</span></div><div class="topic-controls"><label for="topic-select">Conversation topic</label><select id="topic-select"></select><button id="move-topic">Move conversation</button><button id="export-shared">Export shared conversation</button></div><ol id="statements" class="statements"></ol><form id="statement-form" class="statement-form"><label for="statement-text">Add to the conversation</label><textarea id="statement-text" rows="2" maxlength="2000" placeholder="Write a statement to share…" required></textarea><button type="submit">Share statement</button></form></section><aside class="private-pane" aria-labelledby="private-title"><p class="eyebrow">YOUR PARTICIPANT WORKSPACE</p><h2 id="private-title">A place for your next thought</h2><p id="notice" role="status" aria-live="polite"></p><p id="error" role="alert"></p><p id="empty-composer">Choose “Keep a place here” beside a statement. You can prepare without having to finish now.</p><section id="composer" hidden><div class="anchor"><span class="eyebrow">CONNECTED TO</span><blockquote id="anchor-quote"></blockquote></div><label for="intent">What would you like to keep open?</label><select id="intent"><option value="question">A question</option><option value="different-view">A different view</option><option value="preparing">I'm preparing something</option></select><button id="reserve" class="primary">Keep this place open</button><div id="draft-area" hidden><p id="reservation-state" class="state"></p><label for="draft">Your words</label><textarea id="draft" rows="7" maxlength="8000" placeholder="Take the space you need…"></textarea><p class="privacy">Private to your participant view. Drafts are saved on this local server; its operator can read local data. The demo creator initially holds all four invitations.</p><p id="draft-status" class="quiet">Nothing shared.</p><div class="actions"><button id="save-draft">Save draft</button><button id="ready" class="primary">I'm ready</button></div><div id="return-stage" hidden><p>Ready means you are available. Your words are still private.</p><button id="bring-back">Bring back the original point</button></div><div id="share-stage" hidden><h3>Review what you will share</h3><p id="share-preview" class="share-preview"></p><button id="share" class="primary">Share these words as me</button></div><button id="withdraw" class="text-button">Withdraw my reservation</button></div></section><div class="aside-note"><span aria-hidden="true">↳</span><p>An open branch is an invitation to return. It is never a deadline.</p></div></aside></div></section></main><footer>TURNLOOM / CONCEPT 11 <span>Research prototype · No AAC study or cloud qualification claimed</span></footer><script type="module" src="/app/app.mjs"></script></body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TURNLOOM · Keep your place in the conversation</title><link rel="stylesheet" href="/app/style.css"></head>
+<body>
+<header class="masthead"><a class="wordmark" href="/"><span class="pin-mark" aria-hidden="true"></span>turnloom</a><span class="demo-label">Fictional four-person demo</span><span id="identity">Your own pace. A shared conversation.</span></header>
+<main>
+<section id="join-recovery" hidden aria-labelledby="join-recovery-title"><h2 id="join-recovery-title">Your session entry needs confirmation</h2><p id="join-message" role="status" aria-live="polite">Your original invitation and session key are retained in this browser. Retry checks the same session; it does not create a new one.</p><button id="retry-join">Retry the same invitation</button></section>
+
+<section id="welcome" class="welcome" aria-labelledby="welcome-title"><h1 id="welcome-title">Start the demo conversation</h1><p class="intro">Four people are deciding where their reading circle meets. Keep a place on any statement, take your time, and come back to that exact point.</p><button id="create-demo" class="primary">Start the four-person demo <span aria-hidden="true">→</span></button><p class="quiet">Manual anchors · No microphone · No automatic sharing</p><p id="entry-notice" role="status" aria-live="polite"></p><p id="entry-error" role="alert"></p><div id="invitations" hidden><h2>Invite each person to their own session</h2><p>These one-time links grant access to a participant. Give each link only to its intended person. Use separate browser profiles on this computer; this demo does not promise privacy between people sharing a browser.</p><ul id="invite-list"></ul></div></section>
+
+<section id="workspace" hidden>
+ <div class="room-heading"><div><p class="eyebrow">A conversation with room to return</p><h1 id="room-title">Making our community space work for everyone</h1></div><span class="mode">Manual anchor mode</span></div>
+ <div class="workspace-grid">
+  <div class="conversation-col">
+   <section class="conversation" aria-labelledby="conversation-title">
+    <div class="section-heading"><h2 id="conversation-title">Around the table</h2><span>Four people. More than one pace.</span></div>
+    <ol id="statements" class="statements"></ol>
+    <form id="statement-form" class="statement-form"><label for="statement-text">Add to the conversation</label><textarea id="statement-text" rows="2" maxlength="2000" placeholder="Write a statement to share…" required></textarea><button type="submit">Share statement</button></form>
+   </section>
+   <aside class="private-pane" aria-labelledby="private-title">
+    <p class="eyebrow">Your workspace</p>
+    <h2 id="private-title">Your next thought</h2>
+    <p id="notice" role="status" aria-live="polite"></p>
+    <p id="error" role="alert"></p>
+    <p id="empty-composer">Choose “Keep a place here” beside any statement. You can prepare without having to finish now.</p>
+    <section id="composer" hidden>
+     <div class="anchor"><span class="eyebrow">Connected to</span><blockquote id="anchor-quote"></blockquote></div>
+     <label for="intent">What would you like to keep open?</label>
+     <select id="intent"><option value="question">A question</option><option value="different-view">A different view</option><option value="preparing">I'm preparing something</option></select>
+     <button id="reserve" class="primary">Keep this place open</button>
+     <div id="draft-area" hidden>
+      <p id="reservation-state" class="state"></p>
+      <label for="draft">Your words</label>
+      <textarea id="draft" rows="6" maxlength="8000" placeholder="Take the space you need…"></textarea>
+      <p class="privacy">Private to your participant view. Drafts are saved on this local server; its operator can read local data. The demo creator initially holds all four invitations.</p>
+      <p id="draft-status" class="quiet">Nothing shared.</p>
+      <div class="actions"><button id="save-draft">Save draft</button><button id="ready" class="primary">I'm ready</button></div>
+      <div id="return-stage" hidden><p>Ready means you are available. Your words are still private.</p><button id="bring-back" class="primary">Bring back the original point</button></div>
+      <div id="share-stage" hidden><h3>Review what you will share</h3><p id="share-preview" class="share-preview"></p><button id="share" class="primary">Share these words as me</button></div>
+      <button id="withdraw" class="text-button">Withdraw my reservation</button>
+     </div>
+    </section>
+   </aside>
+   <div class="dock-spacer" aria-hidden="true"></div>
+  </div>
+  <aside class="side" aria-label="Conversation controls">
+   <p class="mode-note">Choose the exact statement you want to return to. Model assistance is not connected.</p>
+   <div class="topic-controls"><label for="topic-select">Conversation topic</label><select id="topic-select"></select><button id="move-topic">Move conversation</button><button id="export-shared">Export shared conversation</button></div>
+   <div class="aside-note"><span aria-hidden="true">↳</span><p>An open branch is an invitation to return. It is never a deadline.</p></div>
+  </aside>
+ </div>
+</section>
+</main>
+<footer><span>TURNLOOM · Concept 11</span><span>Research prototype · No AAC study or cloud qualification claimed</span></footer>
+<script type="module" src="/app/app.mjs"></script>
+</body></html>
