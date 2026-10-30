@@ -119,12 +119,14 @@ html{scroll-padding-bottom:calc(var(--dock-h,200px) + 32px)}
 #error{color:var(--danger)}
 #notice:empty,#error:empty{display:none}
 .anchor{border-left:3px solid var(--thread);padding:2px 0 2px 14px;margin:14px 0 0}
+#reserve{margin-top:16px}
 .anchor blockquote{margin:6px 0 0;font-size:17px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
-#draft{min-height:9em;font-size:19px}
+#draft{min-height:6.5em;font-size:18px}
+.private-pane{max-height:calc(100vh - 32px);overflow:auto}
 .privacy{color:var(--muted);font-size:14px!important;margin:10px 0 0}
 #draft-status{font-size:15px;margin:6px 0 0}
 .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:16px}
-.state{margin:14px 0 0;color:var(--thread);font-weight:600}
+.state{display:inline-block;margin:14px 0 0;padding:4px 12px;border-radius:99px;background:var(--thread-soft);color:var(--thread);font-size:15px;font-weight:600}
 #share-stage,#return-stage{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
 #share-stage h3{margin-bottom:8px}
 .share-preview{white-space:pre-wrap;background:var(--thread-soft);padding:12px 14px;border-radius:10px;font-size:18px;overflow-wrap:anywhere}
@@ -171,3 +173,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
+/* Optional model suggestion: quiet, owner-only, always dismissible */
+.cue{margin-top:16px;padding:12px 14px;border-left:3px solid var(--thread);background:var(--thread-soft);border-radius:0 10px 10px 0}
+.cue p{margin:6px 0 0}
+#cue-text{font-size:18px;line-height:1.5;overflow-wrap:anywhere}
+#suggest{margin-top:12px;padding-left:0;color:var(--thread)}

@@ -34,6 +34,8 @@
       <p class="privacy">Private to your participant view. Drafts are saved on this local server; its operator can read local data. The demo creator initially holds all four invitations.</p>
       <p id="draft-status" class="quiet">Nothing shared.</p>
       <div class="actions"><button id="save-draft">Save draft</button><button id="ready" class="primary">I'm ready</button></div>
+      <div id="cue-area" class="cue" hidden><p class="eyebrow">Optional suggestion</p><p id="cue-text"></p><p class="quiet">Nemotron on NVIDIA Nebius Token Factory wrote this from public statements only. It is not shared. Use it or ignore it.</p><div class="actions"><button id="use-cue">Add to my words</button><button id="ignore-cue" class="text-button">Ignore</button></div></div>
+      <button id="suggest" class="text-button" hidden>Suggest a way back (optional)</button>
       <div id="return-stage" hidden><p>Ready means you are available. Your words are still private.</p><button id="bring-back" class="primary">Bring back the original point</button></div>
       <div id="share-stage" hidden><h3>Review what you will share</h3><p id="share-preview" class="share-preview"></p><button id="share" class="primary">Share these words as me</button></div>
       <button id="withdraw" class="text-button">Withdraw my reservation</button>
@@ -43,7 +45,7 @@
    <div class="dock-spacer" aria-hidden="true"></div>
   </div>
   <aside class="side" aria-label="Conversation controls">
-   <p class="mode-note">Choose the exact statement you want to return to. Model assistance is not connected.</p>
+   <p class="mode-note">Choose the exact statement you want to return to. Model assistance is not connected on this server.</p>
    <div class="topic-controls"><label for="topic-select">Conversation topic</label><select id="topic-select"></select><button id="move-topic">Move conversation</button><button id="export-shared">Export shared conversation</button></div>
    <div class="aside-note"><span aria-hidden="true">↳</span><p>An open branch is an invitation to return. It is never a deadline.</p></div>
   </aside>
