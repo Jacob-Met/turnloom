@@ -44,6 +44,23 @@ The default data directory is `.turnloom`. Restart the server with the same dire
 
 The shared conversation export contains approved statements, reservation statuses and their original anchors. It does not contain unfinished drafts or participant access links. Keep the entire data directory if you need to preserve private local work; do not distribute it with an application build.
 
+## How it uses NVIDIA Nemotron on Nebius Token Factory
+
+TURNLOOM uses the NVIDIA Nemotron-3 Nano (30B) model via the Nebius Token Factory API to generate optional return suggestions. When a participant asks for help reconnecting to a previous statement they want to answer, the server sends only the original statement, the current conversation topic, and recent public statements to the model.
+
+The model returns a neutral reference that helps the participant see how their original intended answer connects to where the discussion moved—for example, "Returning to Sam about the garden gate, while we talk about timing." The suggestion is optional and does not modify, share, or publish anything. The participant's private draft is never sent to the model.
+
+Before any suggestion is stored, the server verifies that it cites the original statement and does not exceed the length limit. The suggestion is cleared whenever the participant edits their draft, ensuring it always reflects the exact current state.
+
+The API key is read from the `NEBIUS_API_KEY` environment variable at server startup. To enable this feature locally:
+
+```sh
+export NEBIUS_API_KEY=$(tr -d ' \n' < ~/.config/nebius/key)
+node server.mjs
+```
+
+If the key is not set or the Token Factory is unavailable, manual anchors remain active and the feature gracefully degrades. No private participant data is sent to any external service.
+
 ## Current proof boundary
 
 The initial scenario and all four participants are authored fiction. Automated participants can test privacy, state transitions and topic links; they cannot establish that this helps AAC users or reduces conversational pressure.

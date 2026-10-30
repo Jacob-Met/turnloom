@@ -3,9 +3,10 @@ import {readFile} from 'node:fs/promises';
 import {randomBytes,randomUUID,createHash} from 'node:crypto';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {dirname,join,resolve} from 'node:path';
-import {createRoom,apply,sharedView,ownerView,publicExport,DomainError} from './src/controller.mjs';
+import {createRoom,apply,acceptModelResult,modelInput,sharedView,ownerView,publicExport,DomainError} from './src/controller.mjs';
 import {demoSeed} from './src/seed.mjs';
 import {openStore} from './src/store.mjs';
+import {createNemotronClient,NEMOTRON_MODEL,ModelError} from './src/nemotron.mjs';
 
 const ROOT=dirname(fileURLToPath(import.meta.url));
 const STATIC=new Map([
@@ -28,7 +29,7 @@ async function jsonBody(req) {
   return data;
 }
 
-export async function startServer({port=4177,dataDir=join(ROOT,'.turnloom')}={}) {
+export async function startServer({port=4177,dataDir=join(ROOT,'.turnloom'),nemotron=createNemotronClient({apiKey:process.env.NEBIUS_API_KEY})}={}) {
   if(!Number.isInteger(port)||port<0||port>65535)throw new Error('Invalid port.');
   const store=await openStore(resolve(dataDir));
   let allowedHosts=new Set();
@@ -41,7 +42,9 @@ export async function startServer({port=4177,dataDir=join(ROOT,'.turnloom')}={})
   }
   function view(snapshot,identity) {
     return {...ownerView(snapshot.rooms[identity.roomId],identity.actorId),mode:'fictional-demo',
-      model:{available:false,mode:'manual',message:'Manual anchors are active. No NVIDIA/Nebius inference has been connected or claimed.'}};
+      model:nemotron.available
+        ?{available:true,mode:'nemotron',model:NEMOTRON_MODEL,provider:'NVIDIA Nemotron on Nebius Token Factory',message:'Optional return suggestions read only public statements. Your draft is never sent.'}
+        :{available:false,mode:'manual',message:'Manual anchors are active. Set NEBIUS_API_KEY on this server to enable optional return suggestions.'}};
   }
   function reply(res,status,payload,extra={}) {
     res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...extra});
@@ -122,8 +125,33 @@ export async function startServer({port=4177,dataDir=join(ROOT,'.turnloom')}={})
         reply(res,200,outcome);return;
       }
       if(req.method==='POST'&&url.pathname==='/api/reconnect') {
-        const snapshot=store.current();identify(req,snapshot);await jsonBody(req);
-        throw failure('MODEL_UNAVAILABLE','Manual anchors remain available. An authorized NVIDIA/Nebius runtime has not been qualified.',503);
+        const data=await jsonBody(req);
+        if(!nemotron.available)throw failure('MODEL_UNAVAILABLE','Manual anchors remain available. Set NEBIUS_API_KEY on this server to enable optional return suggestions.',503);
+        if(typeof data.id!=='string'||!Number.isSafeInteger(data.expectedRevision))throw failure('INVALID_INPUT','Choose a reservation and refresh before asking for a suggestion.');
+        const requestId=randomUUID();
+        // Step 1 records the request against the owner's current revision; any later change makes it stale.
+        await store.transaction(snapshot=>{
+          const identity=identify(req,snapshot);
+          const changed=apply(snapshot.rooms[identity.roomId],{type:'model.request',id:data.id,expectedRevision:data.expectedRevision,requestId},identity.actorId);
+          return {snapshot:{...snapshot,rooms:{...snapshot.rooms,[identity.roomId]:changed.state}},result:null};
+        });
+        // Step 2 calls the model outside the write queue, with the public projection only.
+        const requested=store.current(),identity=identify(req,requested);
+        const input=modelInput(requested.rooms[identity.roomId],data.id,identity.actorId);
+        let cue;
+        try{cue=await nemotron.suggestReturnCue(input);}
+        catch(error){
+          if(error instanceof ModelError)throw failure('MODEL_UNAVAILABLE',error.message+' Manual anchors remain available.',503);
+          throw error;
+        }
+        // Step 3 stores the suggestion only if the reservation, draft and public context are still exactly the ones asked about.
+        const outcome=await store.transaction(snapshot=>{
+          const current=identify(req,snapshot);
+          const changed=acceptModelResult(snapshot.rooms[current.roomId],{id:input.id,requestId:input.requestId,reservationRevision:input.reservationRevision,draftVersion:input.draftVersion,contextRevision:input.contextRevision,cue});
+          const next={...snapshot,rooms:{...snapshot.rooms,[current.roomId]:changed.state}};
+          return {snapshot:next,result:{result:changed.result,view:view(next,current)}};
+        });
+        reply(res,200,outcome);return;
       }
       throw failure('NOT_FOUND','This page or action is not available.',404);
     } catch(error) {
